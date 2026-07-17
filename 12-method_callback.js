@@ -84,10 +84,10 @@ function getAllElement(array, callback) {
 function sayHello(_, name) {
   console.log(`Hello ${name}`);
 }
-getAllElement(["Andi", "Banu", "Citra"], sayHello);
-getAllElement([1, 2, 3, 4], (i, num) => {
-  console.log(`Elemen ke-${i + 1} ${num * num}`);
-});
+// getAllElement(["Andi", "Banu", "Citra"], sayHello);
+// getAllElement([1, 2, 3, 4], (i, num) => {
+//   console.log(`Elemen ke-${i + 1} ${num * num}`);
+// });
 
 function master(callback) {
   let f, g, h;
@@ -100,3 +100,36 @@ master((a, b) => {});
 master((a, _, c) => {});
 // 3. callback hanya membutuhkan g dan h
 master((_, b, c) => {});
+
+const processArray = (arr, processor) => {
+  // validasi input
+  // arr harus berupa array
+  if (!Array.isArray(arr)) {
+    console.log("arr harus berupa array");
+    return;
+  }
+  // processor harus berupa fungsi
+  if (typeof processor !== "function") {
+    console.log("processor harus berupa function");
+    return;
+  }
+  const result = [];
+  // loop sepanjang array arr
+  for (let i = 0; i < arr.length; i = i + 1) {
+    const out = processor(arr[i]);
+    result[i] = out;
+  }
+  return result;
+};
+
+const numbers = [1, 2, 3, 4, 5];
+const showNumber = (num) => `Number: ${num}`;
+const makeDollar = (num) => `$${num}`;
+const addFive = (num) => num + 5;
+
+console.log(processArray(numbers, showNumber));
+// ["Number: 1","Number: 2", ...., "Number: 5"]
+console.log(processArray(numbers, makeDollar));
+// ["$1", "$2", ..., "$5"]
+console.log(processArray(numbers, addFive));
+// [6, 7, ..., 10]
